@@ -86,7 +86,7 @@ class ChartTypeRegistry:
             ],
             column_requirements=[
                 ColumnRequirement(
-                    "x_axis", True, ["categorical"], "Categories to compare"
+                    "x_axis", True, ["categorical", "numeric", "temporal"], "Categories to compare"
                 ),
                 ColumnRequirement("y_axis", True, ["numeric"], "Values to display"),
                 ColumnRequirement(
