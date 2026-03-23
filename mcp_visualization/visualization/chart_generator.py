@@ -113,12 +113,12 @@ class ChartGenerator:
             title=title or f"{y_col} by {x_col}",
             color_discrete_sequence=self.visualization_config.color_schemes[
                 "categorical"
-            ],  # SUCCESS Use self.visualization_config
+            ],
         )
 
         fig.update_layout(
-            width=self.visualization_config.width,  # SUCCESS Use self.visualization_config
-            height=self.visualization_config.height,  # SUCCESS Use self.visualization_config
+            width=self.visualization_config.figure_size.width,
+            height=self.visualization_config.figure_size.height,
             showlegend=color_col is not None,
         )
 
@@ -146,15 +146,15 @@ class ChartGenerator:
             title=title or f"{y_col} over {x_col}",
             color_discrete_sequence=self.visualization_config.color_schemes[
                 "categorical"
-            ],  # SUCCESS Use self.visualization_config
+            ],
         )
 
         fig.update_traces(mode="lines+markers", line=dict(width=2), marker=dict(size=6))
 
         fig.update_layout(
-            width=self.visualization_config.width,
-            height=self.visualization_config.height,
-        )  # SUCCESS Use self.visualization_config
+            width=self.visualization_config.figure_size.width,
+            height=self.visualization_config.figure_size.height,
+        )
 
         return fig.to_html(include_plotlyjs="cdn", div_id=f"line_chart_{id(fig)}")
 
@@ -188,16 +188,16 @@ class ChartGenerator:
             title=title or f"{y_col} vs {x_col}",
             color_discrete_sequence=self.visualization_config.color_schemes[
                 "categorical"
-            ],  # SUCCESS Use self.visualization_config
+            ],
             opacity=0.7,
         )
 
         fig.update_traces(marker=dict(size=8 if not size else None))
 
         fig.update_layout(
-            width=self.visualization_config.width,
-            height=self.visualization_config.height,
-        )  # SUCCESS Use self.visualization_config
+            width=self.visualization_config.figure_size.width,
+            height=self.visualization_config.figure_size.height,
+        )
 
         return fig.to_html(include_plotlyjs="cdn", div_id=f"scatter_plot_{id(fig)}")
 
@@ -221,15 +221,15 @@ class ChartGenerator:
             title=title or f"Distribution of {values_col} by {category_col}",
             color_discrete_sequence=self.visualization_config.color_schemes[
                 "categorical"
-            ],  # SUCCESS Use self.visualization_config
+            ],
         )
 
         fig.update_traces(textposition="inside", textinfo="percent+label")
 
         fig.update_layout(
-            width=self.visualization_config.width,
-            height=self.visualization_config.height,
-        )  # SUCCESS Use self.visualization_config
+            width=self.visualization_config.figure_size.width,
+            height=self.visualization_config.figure_size.height,
+        )
 
         return fig.to_html(include_plotlyjs="cdn", div_id=f"pie_chart_{id(fig)}")
 
@@ -252,14 +252,14 @@ class ChartGenerator:
             title=title or f"Distribution of {column}",
             color_discrete_sequence=self.visualization_config.color_schemes[
                 "categorical"
-            ],  # SUCCESS Use self.visualization_config
+            ],
         )
 
         fig.update_traces(opacity=0.7)
 
         fig.update_layout(
-            width=self.visualization_config.width,  # SUCCESS Use self.visualization_config
-            height=self.visualization_config.height,  # SUCCESS Use self.visualization_config
+            width=self.visualization_config.figure_size.width,
+            height=self.visualization_config.figure_size.height,
             bargap=0.1,
         )
 
@@ -286,13 +286,13 @@ class ChartGenerator:
             or f"Distribution of {column}" + (f" by {groupby}" if groupby else ""),
             color_discrete_sequence=self.visualization_config.color_schemes[
                 "categorical"
-            ],  # SUCCESS Use self.visualization_config
+            ],
         )
 
         fig.update_layout(
-            width=self.visualization_config.width,
-            height=self.visualization_config.height,
-        )  # SUCCESS Use self.visualization_config
+            width=self.visualization_config.figure_size.width,
+            height=self.visualization_config.figure_size.height,
+        )
 
         return fig.to_html(include_plotlyjs="cdn", div_id=f"box_plot_{id(fig)}")
 
@@ -325,7 +325,7 @@ class ChartGenerator:
                 title=title or "Correlation Matrix",
                 color_continuous_scale=self.visualization_config.color_schemes[
                     "diverging"
-                ],  # SUCCESS Use self.visualization_config
+                ],
             )
         else:
             # Pivot data for heatmap
@@ -341,15 +341,15 @@ class ChartGenerator:
                     title=title or f"{values_col} by {x_col} and {y_col}",
                     color_continuous_scale=self.visualization_config.color_schemes[
                         "sequential"
-                    ],  # SUCCESS Use self.visualization_config
+                    ],
                 )
             except Exception as e:
                 raise ValueError(f"Could not create heatmap pivot: {e}")
 
         fig.update_layout(
-            width=self.visualization_config.width,
-            height=self.visualization_config.height,
-        )  # SUCCESS Use self.visualization_config
+            width=self.visualization_config.figure_size.width,
+            height=self.visualization_config.figure_size.height,
+        )
 
         return fig.to_html(include_plotlyjs="cdn", div_id=f"heatmap_{id(fig)}")
 
@@ -377,7 +377,7 @@ class ChartGenerator:
                 title=title or f"{y_col} over {x_col}",
                 color_discrete_sequence=self.visualization_config.color_schemes[
                     "categorical"
-                ],  # SUCCESS Use self.visualization_config
+                ],
             )
         else:
             # Single area chart
@@ -391,7 +391,7 @@ class ChartGenerator:
                     name=y_col,
                     line=dict(
                         color=self.visualization_config.color_schemes["categorical"][0]
-                    ),  # SUCCESS Use self.visualization_config
+                    ),
                 )
             )
 
@@ -402,9 +402,9 @@ class ChartGenerator:
             )
 
         fig.update_layout(
-            width=self.visualization_config.width,
-            height=self.visualization_config.height,
-        )  # SUCCESS Use self.visualization_config
+            width=self.visualization_config.figure_size.width,
+            height=self.visualization_config.figure_size.height,
+        )
 
         return fig.to_html(include_plotlyjs="cdn", div_id=f"area_chart_{id(fig)}")
 
@@ -465,7 +465,6 @@ class ChartGenerator:
 # Convenience functions
 def create_quick_chart(chart_type: str, df: pd.DataFrame, **mappings) -> str:
     """Quick chart creation function"""
-    # SUCCESS Instantiate ChartGenerator directly. It will get its config from config_manager.
     generator = ChartGenerator()
     chart_type_enum = ChartType(chart_type)
     html_widget, _ = generator.generate_chart(chart_type_enum, df, mappings)
@@ -479,7 +478,6 @@ def generate_chart_with_insights(
     insights: List[str] = None,
 ) -> Tuple[str, Dict[str, Any]]:
     """Generate chart with insights"""
-    # SUCCESS Instantiate ChartGenerator directly. It will get its config from config_manager.
     generator = ChartGenerator()
     chart_type_enum = ChartType(chart_type)
 
