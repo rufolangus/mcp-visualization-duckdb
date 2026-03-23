@@ -32,12 +32,22 @@ class SimpleFallbackClient:
 
         # Chart type keywords
         chart_keywords = {
+            "bar": [
+                "bar",
+                "bar chart",
+                "horizontal bar",
+                "column chart",
+                "compare",
+                "by category",
+                "ranking",
+                "sorted",
+            ],
             "scatter": ["scatter", "correlation", "relationship", "vs", "against"],
             "line": [
                 "line",
                 "trend",
                 "over time",
-                "timeline", 
+                "timeline",
                 "time series",
                 "temporal",
             ],
